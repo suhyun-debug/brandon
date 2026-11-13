@@ -1,0 +1,382 @@
+{
+ "items": [
+  {
+   "productId": "1266",
+   "productCode": "IP-23-0146",
+   "productName": "오아에어리소닉드라이기-핑크",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 9998
+  },
+  {
+   "productId": "3362",
+   "productCode": "IC-24-1913",
+   "productName": "오아에어리소닉드라이기-핑크-노즐",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 220
+  },
+  {
+   "productId": "3363",
+   "productCode": "IC-24-1914",
+   "productName": "오아에어리소닉드라이기-핑크-상단제품박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 274
+  },
+  {
+   "productId": "3364",
+   "productCode": "IC-24-1915",
+   "productName": "오아에어리소닉드라이기-사용설명서",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 103
+  },
+  {
+   "productId": "3365",
+   "productCode": "IC-24-1916",
+   "productName": "오아에어리소닉드라이기-종이지지대",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 98
+  },
+  {
+   "productId": "3366",
+   "productCode": "IC-24-1917",
+   "productName": "오아에어리소닉드라이기-핑크-하단제품박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 273
+  },
+  {
+   "productId": "3762",
+   "productCode": "IP-24-0074",
+   "productName": "오아에어리소닉드라이기-베이지",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 1485
+  },
+  {
+   "productId": "4351",
+   "productCode": "IC-24-2846",
+   "productName": "오아에어리소닉전용자석거치대-핑크",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 604
+  },
+  {
+   "productId": "4352",
+   "productCode": "IC-24-2847",
+   "productName": "오아에어리소닉전용자석거치대-베이지",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 620
+  },
+  {
+   "productId": "4676",
+   "productCode": "IC-24-3100",
+   "productName": "오아에어리소닉드라이기-베이지-상단제품박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 124
+  },
+  {
+   "productId": "4677",
+   "productCode": "IC-24-3101",
+   "productName": "오아에어리소닉드라이기-베이지-하단제품박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 126
+  },
+  {
+   "productId": "4678",
+   "productCode": "IC-24-3102",
+   "productName": "오아에어리소닉드라이기-베이지-노즐",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 192
+  },
+  {
+   "productId": "4679",
+   "productCode": "IC-24-3103",
+   "productName": "오아에어리소닉드라이기-핑크-스타일링노즐",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 83
+  },
+  {
+   "productId": "4680",
+   "productCode": "IC-24-3104",
+   "productName": "오아에어리소닉드라이기-베이지-스타일링노즐",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 36
+  },
+  {
+   "productId": "4697",
+   "productCode": "IC-24-3107",
+   "productName": "오아에어리소닉드라이기-핑크-택배박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 83
+  },
+  {
+   "productId": "4698",
+   "productCode": "IC-24-3108",
+   "productName": "오아에어리소닉드라이기-베이지-택배박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 74
+  },
+  {
+   "productId": "5651",
+   "productCode": "IP-25-0033",
+   "productName": "오아소닉플로우-베이지",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 5741
+  },
+  {
+   "productId": "6438",
+   "productCode": "IC-25-0885",
+   "productName": "오아소닉플로우-베이지-노즐",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 81
+  },
+  {
+   "productId": "6439",
+   "productCode": "IC-25-0886",
+   "productName": "오아소닉플로우-베이지-제품박스",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 46
+  },
+  {
+   "productId": "6440",
+   "productCode": "IC-25-0887",
+   "productName": "오아소닉플로우-베이지-택배박스",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 0
+  },
+  {
+   "productId": "6441",
+   "productCode": "IC-25-0888",
+   "productName": "오아소닉플로우-공용-사용설명서",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 149
+  },
+  {
+   "productId": "6479",
+   "productCode": "IC-25-0920",
+   "productName": "오아에어리소닉전용자석거치대-3M테이프",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 170
+  },
+  {
+   "productId": "6480",
+   "productCode": "IC-25-0921",
+   "productName": "오아에어리소닉전용자석거치대-접착제",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 109
+  },
+  {
+   "productId": "6760",
+   "productCode": "IC-25-1089",
+   "productName": "오아소닉플로우-공용-파우치",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 144
+  },
+  {
+   "productId": "6880",
+   "productCode": "IP-25-0205",
+   "productName": "오아소닉플로우-그레이",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 9385
+  },
+  {
+   "productId": "6881",
+   "productCode": "IP-25-0206",
+   "productName": "오아소닉플로우-핑크",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 8474
+  },
+  {
+   "productId": "6887",
+   "productCode": "IC-25-1175",
+   "productName": "오아소닉플로우-그레이-택배박스",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 22
+  },
+  {
+   "productId": "6888",
+   "productCode": "IC-25-1176",
+   "productName": "오아소닉플로우-그레이-제품박스",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 50
+  },
+  {
+   "productId": "6889",
+   "productCode": "IC-25-1177",
+   "productName": "오아소닉플로우-그레이-노즐",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 78
+  },
+  {
+   "productId": "6890",
+   "productCode": "IC-25-1178",
+   "productName": "오아소닉플로우-핑크-택배박스",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 22
+  },
+  {
+   "productId": "6891",
+   "productCode": "IC-25-1179",
+   "productName": "오아소닉플로우-핑크-제품박스",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 54
+  },
+  {
+   "productId": "6892",
+   "productCode": "IC-25-1180",
+   "productName": "오아소닉플로우-핑크-노즐",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 75
+  },
+  {
+   "productId": "7417",
+   "productCode": "IP-26-0029",
+   "productName": "오아에어리소닉드라이기-화이트",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 1993
+  },
+  {
+   "productId": "7456",
+   "productCode": "IP-26-0044",
+   "productName": "오아에어리소닉드라이기-핑크-브랜드온",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 1
+  },
+  {
+   "productId": "7457",
+   "productCode": "IP-26-0045",
+   "productName": "오아에어리소닉드라이기-베이지-브랜드온",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 0
+  },
+  {
+   "productId": "7502",
+   "productCode": "IC-26-0204",
+   "productName": "오아에어리소닉전용자석거치대-화이트",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 1257
+  },
+  {
+   "productId": "7588",
+   "productCode": "IC-26-0264",
+   "productName": "오아에어리소닉드라이기-화이트-택배박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 0
+  },
+  {
+   "productId": "7589",
+   "productCode": "IC-26-0265",
+   "productName": "오아에어리소닉드라이기-화이트-하단제품박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 28
+  },
+  {
+   "productId": "7590",
+   "productCode": "IC-26-0266",
+   "productName": "오아에어리소닉드라이기-화이트-상단제품박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 27
+  },
+  {
+   "productId": "7591",
+   "productCode": "IC-26-0267",
+   "productName": "오아에어리소닉드라이기-화이트-스타일링노즐",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 17
+  },
+  {
+   "productId": "7592",
+   "productCode": "IC-26-0268",
+   "productName": "오아에어리소닉드라이기-화이트-노즐",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 28
+  },
+  {
+   "productId": "8084",
+   "productCode": "IP-26-0143",
+   "productName": "오아소닉플로우-베이지-시딩박스",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 8
+  },
+  {
+   "productId": "8085",
+   "productCode": "IP-26-0144",
+   "productName": "오아소닉플로우-핑크-시딩박스",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 13
+  },
+  {
+   "productId": "8086",
+   "productCode": "IP-26-0145",
+   "productName": "오아소닉플로우-그레이-시딩박스",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 2
+  },
+  {
+   "productId": "8106",
+   "productCode": "IC-26-0570",
+   "productName": "오아에어리소닉전용자석거치대-베이지-제품박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 44
+  },
+  {
+   "productId": "8108",
+   "productCode": "IC-26-0572",
+   "productName": "오아에어리소닉전용자석거치대-핑크-제품박스",
+   "modelCode": "OHA-032",
+   "brandId": 1,
+   "qty": 47
+  },
+  {
+   "productId": "8353",
+   "productCode": "IC-26-0692",
+   "productName": "오아소닉플로우-공용-후면커버",
+   "modelCode": "ODRY-007",
+   "brandId": 1,
+   "qty": 1
+  }
+ ],
+ "updatedAt": 1794523078866,
+ "source": "erp-manual"
+}

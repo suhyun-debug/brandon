@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<title>위치 미확인 좌표 일괄 변환 (Kakao Local API)</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<style>
+body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:#F4F5F7;color:#1A2332;padding:32px;max-width:900px;margin:0 auto}
+h1{font-size:18px;margin-bottom:8px}
+.sub{color:#4A5568;font-size:13px;margin-bottom:20px}
+.card{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:20px;margin-bottom:16px}
+label{display:block;font-size:11px;font-weight:700;color:#4A5568;margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em}
+input[type=text]{width:100%;padding:10px 12px;border:1px solid rgba(0,0,0,.15);border-radius:4px;font-size:13px;font-family:monospace}
+button{background:#003A70;color:#fff;border:none;border-radius:4px;font-size:13px;font-weight:700;padding:10px 24px;cursor:pointer;margin-top:14px}
+button:hover{background:#005587}
+button:disabled{opacity:.5;cursor:not-allowed}
+.log{background:#0F172A;color:#E2E8F0;padding:16px;border-radius:4px;font-family:monospace;font-size:12px;height:400px;overflow-y:auto;white-space:pre-wrap;line-height:1.6}
+.log .ok{color:#34D399}
+.log .err{color:#F87171}
+.log .info{color:#60A5FA}
+.stat{display:flex;gap:24px;margin-bottom:14px;font-size:13px}
+.stat b{font-family:'Barlow Condensed',sans-serif;font-size:24px;color:#003A70;display:block}
+</style>
+</head>
+<body>
+<h1>📍 위치 미확인 좌표 일괄 변환</h1>
+<div class="sub">출고 데이터의 주소를 Kakao Local API로 변환하여 Firestore에 업데이트합니다.</div>
+
+<div class="card">
+  <label>Kakao REST API 키</label>
+  <input type="text" id="kakaoKey" placeholder="b1e046ec..."/>
+  <button id="runBtn">🚀 변환 시작</button>
+</div>
+
+<div class="card">
+  <div class="stat">
+    <div>대기 <b id="sP">0</b></div>
+    <div>성공 <b id="sS" style="color:#1A7A4A">0</b></div>
+    <div>실패 <b id="sF" style="color:#C0392B">0</b></div>
+  </div>
+  <div class="log" id="log">키 입력 후 "변환 시작" 버튼을 누르세요.</div>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCmc__AgQak-is4LpKsNqArvTtTbXRFtjQ",
+  authDomain: "brandon-2dbe9.firebaseapp.com",
+  projectId: "brandon-2dbe9",
+  storageBucket: "brandon-2dbe9.firebasestorage.app",
+  messagingSenderId: "748551844990",
+  appId: "1:748551844990:web:3203ef555deaae552a942f"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const MATCHES = [
+  {"id":"1b7BCLrWTzjd2VLxDEaK","name":"온수골온천","address":"경기 수원시 권선구 동수원로 232"},
+  {"id":"1exw4U7FkDx953K9Rfai","name":"아트리키즈아카데미","address":"경기 용인시 기흥구 보정로 32"},
+  {"id":"7YgbaQV7TojbC66qgRdE","name":"GL 메트로 시티","address":"경기도 고양시 덕양구 청초로 10"},
+  {"id":"A0ChzyKIGQSpDQRAEJ3a","name":"미라클짐 삼산점","address":"인천 부평구 길주로 643"},
+  {"id":"A1XRbqzOBpxizitMGmBa","name":"영자피트니스 이수역 메가박스점","address":"서울시 동작구 동작대로 89"},
+  {"id":"DlMNL4pElVwX2W3zrMpm","name":"중흥오투스파 나주점","address":"전남 나주시 상야2길 7"},
+  {"id":"Dr8STOjr9GOCbpQWxijO","name":"제로벨스포츠","address":"인천 중구 하늘별빛로65번길 8-21"},
+  {"id":"EeNywkdS82ua6o75hBPB","name":"르컬렉티브 속초해변","address":"강원 속초시 해오름로 201"},
+  {"id":"GQe7EQuDdep0iRcWUG2S","name":"무한사우나","address":"서울 강서구 공항대로 593"},
+  {"id":"IH2f0lwrq3e9iz7odPfM","name":"스타핏","address":"강원 강릉시 솔올로5번길 9"},
+  {"id":"JWlcQdGQE7FxHoiF0ylX","name":"씨랄라 워터파크","address":"서울 영등포구 문래로 164"},
+  {"id":"KXKy1S2xeMOjzBXjfglY","name":"에이치제이디오션리조트","address":"전남 여수시 소호로 295"},
+  {"id":"KcVSYm0goGqWUWaECiIB","name":"강릉롯데캐슬시그니처","address":"강원도 강릉시 원대로 76"},
+  {"id":"L5AQeAStOi4Vc2WJgzEe","name":"천안상록리조트","address":"충남 천안시 동남구 수신면 수신로 576"},
+  {"id":"McczmaMYdufkDJUOUfIC","name":"나래스포츠","address":"대전광역시 유성구 반석동로 51-15"},
+  {"id":"N2mPqbSttiFny8ObwrkA","name":"하이페리움","address":"부산 기장군 일광읍 해빛4로 35"},
+  {"id":"Noreas1dOcBeCsrIBywr","name":"영자피트니스 영등포 신풍역점","address":"서울시 영등포구 신길로 39"},
+  {"id":"NxC0tORswR0zN2CRuxVV","name":"화명롯데캐슬카이저","address":"부산시 북구 금곡대로 166"},
+  {"id":"OmZYtBVnXOkyVQ6tqJqo","name":"미켈란스포츠센터","address":"경기 성남시 분당구 정자일로 100"},
+  {"id":"OshtnAeYeNEzSvmtI565","name":"하피랜드","address":"경기 화성시 팔탄면 시청로 888"},
+  {"id":"PCDGItpyFC8zxAPMi2CK","name":"파크뷰휘트니스센터","address":"경기도 성남시 분당구 정자일로 248"},
+  {"id":"PeiCALBQ0eWw1sATwmtf","name":"목동스포츠센터","address":"서울 양천구 목동서로 130"},
+  {"id":"PzjwabZqjbHYzAcfAh47","name":"스파마린","address":"부산 해운대구 마린시티2로 33"},
+  {"id":"TWRL3NFNNlsEVxJkrawB","name":"스파디움24","address":"경기 남양주시 다산순환로 20"},
+  {"id":"WQU4Fn9HdIiKl4KokabK","name":"호텔수성","address":"대구광역시 수성구 용학로 106-7"},
+  {"id":"aicZzLUU9vigH4v1uGdh","name":"롯데호텔아트빌라스","address":"제주특별자치도 서귀포시 색달중앙로 252번길 124"},
+  {"id":"bb0VyxRPtvOx5hjo8s8p","name":"극동스포츠센터","address":"서울특별시 강남구 압구정로 152"},
+  {"id":"Ybw0eSuKPr0Gvh1YHKcc","name":"버핏서울 역삼ARC점","address":"서울 강남구 테헤란로 142"},
+  {"id":"J59k8FOCO04IsAGBAB7l","name":"버핏서울 판교점","address":"경기 성남시 분당구 판교역로 136"},
+  {"id":"XZ1IWVIXxINVMviSyXes","name":"버핏서울 가산점","address":"서울 금천구 디지털로 178"},
+  {"id":"QoMsMNa9dNUGIlUkQu9O","name":"버핏서울 신도림점","address":"서울 구로구 경인로 662"},
+  {"id":"G5WUvJ6j95U4Qh1sT9X6","name":"버핏서울 삼성점","address":"서울 강남구 삼성로 512"},
+  {"id":"zodTwj9sfBEg9Ua8JSlg","name":"버핏서울 광화문점","address":"서울 중구 세종대로 136"},
+  {"id":"AylrutGMKz0JbrLtGdDH","name":"버핏서울 도곡점","address":"서울 강남구 언주로30길 21"},
+  {"id":"78PBESoy7Ep6Rst6rK1m","name":"버핏서울 한티점","address":"서울 강남구 선릉로 338"},
+  {"id":"CHa9U1CZ9yMZmmhQO8YG","name":"버핏서울 마곡점","address":"서울 강서구 공항대로 165"},
+  {"id":"uViu3hwjyC3keq9LvPaa","name":"버핏서울 판교 벤처타운점","address":"경기 성남시 분당구 대왕판교로644번길 49"},
+  {"id":"i699JVHAqSqtPsm2xV9J","name":"버핏서울 역삼GFC점","address":"서울 강남구 테헤란로 152"},
+  {"id":"WgTRzTqLTNaZxyz5Y2wn","name":"버핏서울 합정점","address":"서울 마포구 양화로 45"},
+  {"id":"DCNuO6iteBEUMiyE1qOO","name":"버핏서울 강변점","address":"서울 광진구 광나루로56길 85"},
+  {"id":"SfOcSmyC9ci1ljooqZXa","name":"버핏서울 논현점","address":"서울 강남구 언주로 641"},
+  {"id":"HKRPwM1hO35XGyZswe1P","name":"버핏서울 오피스","address":"서울 강남구 논현로 336"},
+  {"id":"ptZghD1im3O8Wm01gBQE","name":"버핏서울 마포점","address":"서울 마포구 용강동 122-1"},
+  {"id":"11RfTiA4BJZyGKxRNYEW","name":"에이블짐 창신점","address":"서울 종로구 지봉로 81"},
+  {"id":"kxbd16SDCtLJ4OYovqal","name":"에이블짐 한양대점","address":"서울 성동구 마조로 30"},
+  {"id":"mwyQz6HA3zUHaGOS0dzY","name":"에이블짐 신논현점","address":"서울 서초구 사평대로 371"},
+  {"id":"p0YbbAA7Ifoculkjvku2","name":"에이블짐 발산점","address":"서울 강서구 강서로 348"},
+  {"id":"chx3ZIc91Q8ZNutgH35s","name":"에이블짐 건대점","address":"서울 광진구 아차산로30길 26"},
+  {"id":"6HxzBB1Ylqt3O5pZSAJZ","name":"에이블짐 돈암점","address":"서울 성북구 성북로4길 52"},
+  {"id":"1og8dz4jmCl89jv0CsGo","name":"에이블짐 연신내점","address":"서울 은평구 통일로 861"},
+  {"id":"1ym9n39GWZ6o1XIxyX2d","name":"에이블짐 불광점","address":"서울 은평구 불광로 60"},
+  {"id":"wZ9CImeXJeNMk57qy98M","name":"에이블짐 응암점","address":"서울 은평구 은평로 116"},
+  {"id":"CChbQnS8J8NDfDlWpW1T","name":"에이블짐 삼성중앙점","address":"서울 강남구 봉은사로 502"},
+  {"id":"Kr3qGMT4KNYWpsjZ4x3V","name":"에이블짐 상암점","address":"서울 마포구 월드컵북로56길 9"},
+  {"id":"c9czmEgJ4yqGQBkKYvaW","name":"방배그랑자이","address":"서울 서초구 방배로 21"},
+  {"id":"dtrA5vjP6NYI1kquGEA8","name":"삼모스포렉스","address":"서울 관악구 신림로59길 23"},
+  {"id":"g2sV6BHGPo0SlFx8sSWG","name":"이천아름수리","address":"경기도 이천시 마장면 마도로 12"},
+  {"id":"gEUSn7PnVtZReWJWDtXg","name":"승산스포렉스","address":"부산광역시 금정구 구서중앙로15번길 20"},
+  {"id":"gaewcft9YeIOyeEYqY0M","name":"영자피트니스 신도림 테크노마트점","address":"서울시 구로구 새말로 97"},
+  {"id":"jjQsZzyTlIRssPmvuuSy","name":"극동스포랜드","address":"경기도 안산시 단원구 초지동로 7"},
+  {"id":"kPPhCUdIOVbVyj3bPnNe","name":"청량리 그라시엘","address":"서울시 동대문구 고산자로32길 78"},
+  {"id":"knIXx8vA2szqrjut5uMG","name":"경주 뽀로로아쿠아빌리지","address":"경주시 보문로 182-27"},
+  {"id":"mi5KTvluXDRPQnDRPXwZ","name":"독산역 롯데캐슬","address":"서울시 금천구 벚꽃로 100"},
+  {"id":"nNDTAxvOZaS7bA0UHxUt","name":"무등산자이앤어울림 1단지","address":"광주 북구 서양로 155"},
+  {"id":"pSiuOD9t508Vsa0bJlkn","name":"송해온","address":"인천시 연수구 인천타워대로197번길 16"},
+  {"id":"pky8bvnc8P4A2GwILr5m","name":"청라스포츠센터","address":"인천 서구 청라에메랄드로 99"},
+  {"id":"qdql43RkUUv2IaED1FWf","name":"고덕 풍경채 2차","address":"경기도 평택시 고덕국제8로 100"},
+  {"id":"qq5t8FX4OrQoLYxTo6Tz","name":"DMC 자이더리버","address":"경기도 고양시 덕양구 대덕산로 90"},
+  {"id":"rL2gTA5xCKFlCTzSP5cm","name":"더샵광주포레스트","address":"광주시 북구 동문대로249번길 12"},
+  {"id":"sPixLbKSxMiwuHskjEnz","name":"탄스 마곡점","address":"서울 강서구 공항대로 206"},
+  {"id":"vdDpimLBTxCruKtte9SZ","name":"서귀포홍리실내수영장","address":"제주도 서귀포시 지장샘로 182번길 149"},
+  {"id":"vv7SixmH2kk4a41OsxJ4","name":"유니버시아드 힐스테이트3단지","address":"광주 서구 화운로 24"},
+  {"id":"w2G51Twh98rkQKzU2Nva","name":"클럽브릭스","address":"경기 성남시 분당구 분당내곡로 131"},
+  {"id":"wqtlw3Mr1cBRNrXVLfAg","name":"업투휘트니스 사당프리미엄점","address":"서울 동작구 동작대로 59"},
+  {"id":"xOnYA5ApmMiSDPqSK27I","name":"밸런스수영장","address":"경기 안양시 만안구 안양로329번길 108"},
+  {"id":"xwqG9izE8LZGWXoMxHdU","name":"르컬렉티브시흥","address":"경기도 시흥시 거북섬로 135"}
+];
+
+document.getElementById('sP').textContent = MATCHES.length;
+const logEl = document.getElementById('log');
+const sP = document.getElementById('sP'), sS = document.getElementById('sS'), sF = document.getElementById('sF');
+let cntS = 0, cntF = 0;
+
+function log(msg, cls) {
+  const line = document.createElement('div');
+  if (cls) line.className = cls;
+  line.textContent = msg;
+  logEl.appendChild(line);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+async function geocode(addr, key) {
+  // 1차: 주소 검색
+  let r = await fetch(`https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(addr)}`, {
+    headers: { Authorization: `KakaoAK ${key}` }
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  let j = await r.json();
+  if (j.documents && j.documents.length) {
+    return { lat: parseFloat(j.documents[0].y), lng: parseFloat(j.documents[0].x), src: 'address' };
+  }
+  // 2차: 키워드 검색 (주소 검색 실패 시)
+  r = await fetch(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(addr)}`, {
+    headers: { Authorization: `KakaoAK ${key}` }
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  j = await r.json();
+  if (j.documents && j.documents.length) {
+    return { lat: parseFloat(j.documents[0].y), lng: parseFloat(j.documents[0].x), src: 'keyword' };
+  }
+  return null;
+}
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+document.getElementById('runBtn').addEventListener('click', async () => {
+  const key = document.getElementById('kakaoKey').value.trim();
+  if (!key) { alert('API 키를 입력하세요'); return; }
+  document.getElementById('runBtn').disabled = true;
+  logEl.innerHTML = '';
+  log(`▶ ${MATCHES.length}건 변환 시작`, 'info');
+
+  for (let i = 0; i < MATCHES.length; i++) {
+    const m = MATCHES[i];
+    try {
+      const r = await geocode(m.address, key);
+      if (!r) {
+        log(`[${i+1}/${MATCHES.length}] ✗ ${m.name}: 좌표 없음 (${m.address})`, 'err');
+        cntF++;
+      } else {
+        await db.collection('partners').doc(m.id).update({ lat: r.lat, lng: r.lng });
+        log(`[${i+1}/${MATCHES.length}] ✓ ${m.name}: ${r.lat.toFixed(5)}, ${r.lng.toFixed(5)} (${r.src})`, 'ok');
+        cntS++;
+      }
+    } catch (e) {
+      log(`[${i+1}/${MATCHES.length}] ✗ ${m.name}: ${e.message}`, 'err');
+      cntF++;
+    }
+    sS.textContent = cntS; sF.textContent = cntF;
+    sP.textContent = MATCHES.length - cntS - cntF;
+    await sleep(120);
+  }
+  log(`\n=== 완료: 성공 ${cntS} / 실패 ${cntF} ===`, 'info');
+  document.getElementById('runBtn').disabled = false;
+});
+</script>
+</body>
+</html>
